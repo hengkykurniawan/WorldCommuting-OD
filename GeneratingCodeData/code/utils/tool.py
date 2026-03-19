@@ -476,3 +476,25 @@ def plot_generated_od(shp_path, generated_od, outfig_path):
     f = plot_od_arc_chart(generated_od, geometries, low, high)
     
     f.savefig(outfig_path, bbox_inches='tight')
+
+def convert_diagonal_to_nan(od_matrix):
+    """
+    Convert diagonal values of an OD matrix from zero to NaN.
+
+    The diagonal values in the commuting OD matrices are not estimated by the model
+    and are stored as zeros for format consistency. This function converts them to NaN
+    to correctly represent their semantics as missing (not estimated) rather than zero flow.
+
+    Parameters
+    ----------
+    od_matrix : numpy.ndarray
+        A 2D square numpy array representing the commuting OD flow matrix.
+
+    Returns
+    -------
+    numpy.ndarray
+        The OD matrix with diagonal values set to NaN (dtype: float64).
+    """
+    od = od_matrix.astype(np.float64)
+    np.fill_diagonal(od, np.nan)
+    return od
