@@ -33,9 +33,9 @@ CITY_OUT_DIR = os.path.join(OUT_DIR, "cities")
 
 # How many of the strongest OD flows to keep per city for the arc map.
 TOP_K_FLOWS = 400
-# Polygon simplification tolerance in degrees (~0.0004 deg ~ 40 m) and
+# Polygon simplification tolerance in degrees (~0.0006 deg ~ 60 m) and
 # coordinate rounding (decimal places) to keep per-city files small.
-SIMPLIFY_DEG = 0.0004
+SIMPLIFY_DEG = 0.0006
 COORD_DP = 5
 
 # Continents pycountry_convert can't resolve.
@@ -45,13 +45,20 @@ _continent_cache: dict[str, str | None] = {}
 
 
 def country_info(folder: str):
-    """Return (iso2_or_iso3, country_name, continent, group) for a folder name."""
-    if folder.startswith("GHSL-"):
-        m = re.match(r"^GHSL-(\d+)_([A-Z]{3})_(.+)$", folder)
+    """Return dict(id, code, name, country, continent, group) for a folder name.
+
+    Three naming schemes exist in the dataset:
+      <id>_<ISO2>_<Name>         -> core "global 1625" set (2-letter ISO codes)
+      hzy-<id>_<ISO3>_<Name>     -> also part of the "global 1625" set (3-letter)
+      GHSL-<id>_<ISO3>_<Name>    -> "ghsl" 744 set (3-letter ISO codes)
+    The numeric + hzy- folders together make up the documented 1,625-city set.
+    """
+    if folder.startswith("GHSL-") or folder.startswith("hzy-"):
+        group = "ghsl" if folder.startswith("GHSL-") else "global"
+        m = re.match(r"^(?:GHSL|hzy)-(\d+)_([A-Z]{3})_(.+)$", folder)
         if not m:
             return None
         cid, code, name = m.groups()
-        group = "ghsl"
         co = pycountry.countries.get(alpha_3=code)
         a2 = co.alpha_2 if co else None
     else:
@@ -113,13 +120,15 @@ def process_city(folder: str, idx: int):
         return None
 
     try:
-        gdf = gpd.read_file(shp).to_crs(4326)
+        gdf_utm = gpd.read_file(shp)  # native per-city UTM CRS
+        # Centroids computed in the projected CRS (accurate), then to lat/lon.
+        cents = gdf_utm.geometry.centroid.to_crs(4326)
+        gdf = gdf_utm.to_crs(4326)    # polygons in lat/lon for outlines
     except Exception as e:
         print(f"  ! shp read failed {folder}: {e}", file=sys.stderr)
         return None
 
     n_regions = len(gdf)
-    cents = gdf.geometry.centroid
     lons = cents.x.to_numpy()
     lats = cents.y.to_numpy()
     city_lat = float(np.nanmean(lats))

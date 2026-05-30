@@ -2,6 +2,15 @@
 
 This dataset contains commuting Origin-Destination (OD) flow data spanning 6 continents, 179 countries, and 1,625 cities worldwide, providing unprecedented coverage of urban dynamics across diverse urban environments.
 
+## 🌍 Interactive Dashboard
+
+An interactive web dashboard for exploring the dataset lives in [`docs/`](docs/) and can be hosted for free on **GitHub Pages**:
+
+- A **world overview map** of every city, sized/coloured by commuting flow, with continent / country / dataset filters and search.
+- A **per-city drill-down** showing region boundaries and the strongest origin→destination commuting arcs.
+
+**Enable hosting:** *Settings → Pages → Deploy from a branch → `main` / `/docs`*. The published site only serves the lightweight JSON in `docs/data/` — the multi-GB raw shapefiles and `.npy` matrices are not exposed. See [`docs/README.md`](docs/README.md) for details and how to regenerate the data with [`tools/build_data.py`](tools/build_data.py).
+
 ## Dataset Applications
 
 This dataset supports research across multiple Sustainable Development Goals (SDGs):

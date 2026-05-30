@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World Commuting OD Flows — Dashboard</title>
+  <meta name="description" content="Interactive dashboard for a global commuting origin-destination flow dataset spanning 179 countries and 1,600+ cities." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="brand">
+        <h1>World Commuting <span>OD Flows</span></h1>
+        <p class="tagline">Global origin–destination commuting dataset · <span id="stat-cities">…</span> cities · <span id="stat-countries">…</span> countries</p>
+      </div>
+      <div class="brand-actions">
+        <a class="ghlink" href="https://github.com/tsinghua-fib-lab/CommutingODGen-Dataset" target="_blank" rel="noopener">Dataset ↗</a>
+      </div>
+    </header>
+
+    <div id="main">
+      <!-- Sidebar / filter panel -->
+      <aside id="sidebar">
+        <div class="panel" id="filter-panel">
+          <label class="fld">
+            <span>Search city</span>
+            <input id="search" type="search" placeholder="e.g. Marseille" autocomplete="off" />
+          </label>
+
+          <label class="fld">
+            <span>Continent</span>
+            <select id="f-continent"><option value="">All continents</option></select>
+          </label>
+
+          <label class="fld">
+            <span>Country</span>
+            <select id="f-country"><option value="">All countries</option></select>
+          </label>
+
+          <label class="fld">
+            <span>Dataset</span>
+            <select id="f-group">
+              <option value="">All</option>
+              <option value="global">Global 1625</option>
+              <option value="ghsl">GHSL 744</option>
+            </select>
+          </label>
+
+          <label class="fld">
+            <span>Bubble size / colour by</span>
+            <select id="f-metric">
+              <option value="total">Total commuting flow</option>
+              <option value="maxf">Peak corridor (max O→D)</option>
+              <option value="n">Number of regions</option>
+            </select>
+          </label>
+
+          <div class="counts">
+            <span id="visible-count">…</span> cities shown
+          </div>
+        </div>
+
+        <div class="panel" id="legend-panel">
+          <h3>Legend</h3>
+          <div id="legend"></div>
+        </div>
+
+        <div class="panel detail" id="detail-panel" hidden>
+          <button id="detail-close" title="Back to overview">← Overview</button>
+          <h2 id="d-name">—</h2>
+          <p id="d-sub" class="d-sub">—</p>
+          <div id="d-stats" class="d-stats"></div>
+          <div class="toggles">
+            <label><input type="checkbox" id="t-regions" checked /> Region boundaries</label>
+            <label><input type="checkbox" id="t-flows" checked /> OD flow arcs</label>
+          </div>
+          <label class="fld">
+            <span>Show strongest flows: <b id="topn-val">150</b></span>
+            <input id="topn" type="range" min="10" max="400" step="10" value="150" />
+          </label>
+          <p class="hint">Arc width &amp; colour ∝ commuters on that origin→destination pair.</p>
+        </div>
+      </aside>
+
+      <!-- Map -->
+      <div id="map"></div>
+      <div id="loading">Loading dataset…</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

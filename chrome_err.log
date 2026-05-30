@@ -1,0 +1,8 @@
+302755 bytes written to file C:/Users/hengk/My Drive/GitHub/WorldCommuting-OD/_overview.png
+[13196:1220:0530/172355.133:ERROR:chrome\browser\web_applications\externally_managed_app_manager.cc:680] https://mail.google.com/mail/installwebapp?usp=chrome_default from install source 1 failed to install with reason 21
+323236 bytes written to file C:/Users/hengk/My Drive/GitHub/WorldCommuting-OD/_city.png
+316450 bytes written to file C:/Users/hengk/My Drive/GitHub/WorldCommuting-OD/_city2.png
+[15888:21156:0530/172735.366:ERROR:mojo\public\cpp\bindings\lib\interface_endpoint_client.cc:748] Message 231789547 rejected by interface blink.mojom.FrameWidgetHost
+[15888:21156:0530/172735.367:ERROR:mojo\public\cpp\bindings\lib\interface_endpoint_client.cc:748] Message 6 rejected by interface blink.mojom.WidgetHost
+[15888:21156:0530/172735.367:ERROR:mojo\public\cpp\bindings\lib\interface_endpoint_client.cc:748] Message 7 rejected by interface blink.mojom.WidgetHost
+[15888:21156:0530/172735.467:ERROR:chrome\browser\web_applications\externally_managed_app_manager.cc:680] https://mail.google.com/mail/installwebapp?usp=chrome_default from install source 1 failed to install with reason 21

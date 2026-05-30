@@ -1,0 +1,4 @@
+numpy>=1.24
+geopandas>=0.14
+pycountry>=22.3
+pycountry-convert>=0.7
